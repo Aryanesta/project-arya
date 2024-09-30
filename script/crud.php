@@ -30,7 +30,7 @@ function tambah($post) {
 
     mysqli_query($conn, $queryTambah);
 
-    header('Location: ../admin/galleries.php');
+    header('Location: ../admin/produk.php');
     exit;
 
     return mysqli_affected_rows($conn);
