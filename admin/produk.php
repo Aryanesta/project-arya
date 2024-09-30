@@ -95,18 +95,17 @@ $gambar = query("SELECT * FROM gambar");
           >
         </li>
 
-        <!-- Nav Item - Galleries -->
-        <!-- Nav Item - Galleries -->
+        <!-- Nav Item - produk -->
         <li class="nav-item">
           <a
             class="nav-link dropdown-toggle"
             href="#submenu1" 
             data-bs-toggle="collapse">
             <i class="fas fa-fw fa-images"></i>
-            <span>Galleries</span></a
+            <span>Produk</span></a
           >
                 <ul class="collapse list-unstyled" id="submenu1" style="font-family: 'Nunito';">
-                    <li><a class="nav-link ms-5 fs-5" href="galleries.php">View Gallery</a></li>
+                    <li><a class="nav-link ms-5 fs-5" href="produk.php">View Produk</a></li>
                     <li><a class="nav-link ms-5 fs-5" href="tambah.php">Add Image</a></li>
                 </ul>
         </li>
@@ -278,7 +277,7 @@ $gambar = query("SELECT * FROM gambar");
           <!-- Begin Page Content -->
           <div class="container-fluid">
             <!-- Page Heading -->
-            <h1 class="h3 mb-4 text-gray-800">Galleries</h1>
+            <h1 class="h3 mb-4 text-gray-800">Product</h1>
 
           <!-- Carousel -->
           <div id="produk" class="carousel slide container w-75 mb-5" data-bs-ride="carousel">
