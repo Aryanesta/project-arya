@@ -13,29 +13,37 @@
 
   <!-- Nav Item - Dashboard -->
   <li class="nav-item {{ $title === 'Dashboard' ? 'active' : '' }}">
-    <a class="nav-link" href="/">
+    <a class="nav-link" href="/dashboard">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dashboard</span>
     </a>
   </li>
 
   <!-- Nav Item - Produk -->
-  <li class="nav-item {{ $title === 'Product' ? 'active' : '' }}">
+  <li class="nav-item">
     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu1" aria-expanded="false" aria-controls="submenu1">
       <i class="fas fa-fw fa-box"></i>
       <span>Produk</span>
     </a>
     <div id="submenu1" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <ul class="list-unstyled ms-4">
-        <li><a class="nav-link" href="/admin/product">View Produk</a></li>
-        <li><a class="nav-link" href="/admin/add-product">Add Produk</a></li>
+        <li><a class="nav-link {{ $title === 'Product' ? 'active' : '' }}" href="/admin/product">View Produk</a></li>
+        <li><a class="nav-link {{ $title === 'Product Category' ? 'active' : '' }}" href="/admin/product-category">Kategori Produk</a></li>
       </ul>
     </div>
   </li>
 
+  <!-- Nav Item - Transaction -->
+  <li class="nav-item {{ $title === 'Transaction' ? 'active' : '' }}">
+    <a class="nav-link" href="/admin/transaction">
+      <i class="fas fa-fw fa-address-book"></i>
+      <span>Transaction</span>
+    </a>
+  </li>
+
   <!-- Nav Item - Contact -->
   <li class="nav-item {{ $title === 'Contact' ? 'active' : '' }}">
-    <a class="nav-link" href="/admin/contact">
+    <a class="nav-link" href="/contact">
       <i class="fas fa-fw fa-address-book"></i>
       <span>Kontak</span>
     </a>

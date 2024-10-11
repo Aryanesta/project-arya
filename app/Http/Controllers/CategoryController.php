@@ -40,7 +40,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view('/single-category', [
+        return view('single-category', [
             'title' => 'Categories',
             'category' => $category,
             'posts' => $category->post->load('user'),

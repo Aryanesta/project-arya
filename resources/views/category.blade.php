@@ -1,4 +1,4 @@
-@extends('layout.main')
+@extends('layout.app')
 
 @section('container')
     <h1>Blog Categories</h1>

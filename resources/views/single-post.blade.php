@@ -1,4 +1,4 @@
-@extends('layout.main')
+@extends('layout.app')
 
 @section('container')
         <article class="my-4 text-dark">

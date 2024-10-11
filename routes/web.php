@@ -1,56 +1,63 @@
 <?php
 
-use App\Models\Post;
+namespace App\Http\Middleware;
+
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
-// use App\Http\Controllers\ParsingDataController;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
-
-Route::get('/', [DashboardController::class, 'index']);
-
-Route::prefix('admin')->group(function () {
-    Route::get('/product', [ProductController::class, 'index']);
-    Route::get('/add-product', function () {
-        return view('add-product', [
-            'title' => 'Add Product'
-        ]);
-    });
-    Route::get('/contact', [ContactController::class, 'index']);
-});
-
-// Route::prefix('product')->group(function () {
-//     Route::get('/', [ProductController::class, 'index'])->name('product.index'); // Rute untuk menampilkan produk
-    
-//     Route::get('add-product', function () {
-//         return view('add-product', [
-//             'title' => 'Add Product'
-//         ]);
-//     })->name('product.add'); // Rute untuk menambah produk
-// });
+use App\Http\Controllers\ParsingDataController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ProductCategoryController;
 
 
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->middleware('auth');
 
-Route::get('/blog', [BlogController::class, 'index']);
+Route::get('/admin/product', [ProductController::class, 'index'])->middleware('auth');
 
-Route::get('/blog/{post:slug}', [BlogController::class, 'show']);
+Route::get('/admin/product-category', [ProductCategoryController::class, 'index'])->middleware('auth');
 
-Route::get('/category', [CategoryController::class, 'index']);
+Route::get('/admin/transaction', [TransactionController::class, 'index'])->middleware('auth');
 
-Route::get('/single-category/{category:slug}', [CategoryController::class, 'show']);
+Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('guest');
+
+Route::post('/', [LoginController::class, 'authenticate']);
+
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
+
+Route::get('/registration', [RegistrationController::class, 'index'])->middleware('guest');
+
+Route::post('/registration', [RegistrationController::class, 'store']);
+
+
+
+Route::get('/contact', [ContactController::class, 'index'])->middleware('auth');
+
+
+
+Route::get('/blog', [BlogController::class, 'index'])->middleware('auth');
+
+Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->middleware('auth');
+
+Route::get('/category', [CategoryController::class, 'index'])->middleware('auth');
+
+Route::get('/single-category/{category:slug}', [CategoryController::class, 'show'])->middleware('auth');
 
 Route::get('/author/{user:username}', function(User $user) {
     return view('/author', [
         'title' => 'Author Post',
-        'user' => $user->name,
+        'user' => $user,
         'posts' => $user->post->load('user', 'category'),
     ]);
-});
+})->middleware('auth');
 
-use App\Http\Controllers\ParsingDataController;
 
-Route::get('/parse-data/{nama_lengkap}/{email}/{jenis_kelamin}', [ParsingDataController::class, 'parseData']);
+
+Route::get('/parse-data/{nama_lengkap}/{email}/{jenis_kelamin}', [ParsingDataController::class, 'parseData'])->middleware('auth');
