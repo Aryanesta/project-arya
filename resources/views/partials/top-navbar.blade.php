@@ -44,7 +44,7 @@
               <!-- Nav Item - User Information -->
               <li class="nav-item dropdown no-arrow">
                   <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="me-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                      <span class="me-2 d-none d-lg-inline text-gray-600 small mx-2">{{ auth()->user()->name }}</span>
                       <img class="img-profile rounded-circle" src="../upload/undraw_profile.svg" />
                   </a>
                   <!-- Dropdown - User Information -->

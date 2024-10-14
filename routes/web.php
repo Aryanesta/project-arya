@@ -11,6 +11,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ParsingDataController;
 use App\Http\Controllers\TransactionController;
@@ -20,11 +21,21 @@ use App\Http\Controllers\ProductCategoryController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->middleware('auth');
 
-Route::get('/admin/product', [ProductController::class, 'index'])->middleware('auth');
+// Product Route
+Route::put('/admin/product/{product}/edit', [ProductController::class, 'update'])->middleware('auth');
+Route::resource('/admin/product', ProductController::class)->middleware('auth');
 
-Route::get('/admin/product-category', [ProductCategoryController::class, 'index'])->middleware('auth');
+// Product Catgeory Route
+Route::put('/admin/product-category/{productCategory}/edit', [ProductCategoryController::class,'update'])->middleware('auth');
+Route::resource('/admin/product-category', ProductCategoryController::class)->middleware('auth');
 
+// Customer Route
+Route::put('/admin/customer/{customer}/edit', [CustomerController::class, 'update'])->middleware('auth');
+Route::resource('/admin/customer', CustomerController::class)->middleware('auth');
+
+// Transaction Route
 Route::get('/admin/transaction', [TransactionController::class, 'index'])->middleware('auth');
+
 
 Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('guest');
 
@@ -36,11 +47,7 @@ Route::get('/registration', [RegistrationController::class, 'index'])->middlewar
 
 Route::post('/registration', [RegistrationController::class, 'store']);
 
-
-
 Route::get('/contact', [ContactController::class, 'index'])->middleware('auth');
-
-
 
 Route::get('/blog', [BlogController::class, 'index'])->middleware('auth');
 

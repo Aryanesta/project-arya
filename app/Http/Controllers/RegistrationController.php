@@ -31,7 +31,7 @@ class RegistrationController extends Controller
         
         Session::flash('success', 'Registrasi berhasil');
 
-        return redirect('/pages/login');
+        return redirect('/');
 
         // dd('berhasil kamu cuy');
     }
