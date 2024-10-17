@@ -16,7 +16,11 @@
   <div class="row justify-content-start my-3">
     @foreach ($products as $product)        
     <div class="card col-xl-4 col-lg-6 col-sm-6 mb-3" style="width: 18rem;">
-        <img src="../upload/{{ $product->image }}" class="card-img-top" alt="{{ $product->image }}">
+      @if ($product->image)
+          <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+      @else
+        <img src="../upload/product-1.png" class="card-img-top" alt="{{ $product->name }}">
+      @endif
         <div class="card-body">
             <h5 class="card-title" style="font-weight: bolder">{{ $product->name }}</h5>
             <h6 class="card-text text-success">Price : ${{ $product->price }}</h6>
@@ -31,7 +35,7 @@
         </div>
     </div>
 
-    <!-- UPDATE PRODUKK -->
+    <!-- Modal Edit Product -->
     <div class="modal fade" id="editProduct{{ $product->id }}">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -40,7 +44,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="/admin/product/{{ $product->id }}/edit">
+                    <form method="POST" action="/admin/product/{{ $product->id }}" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <div class="mb-3">
@@ -58,8 +62,11 @@
                             @enderror
                         </div>
                         <div class="mb-3">
+                            <input type="hidden" name="oldImage" value="{{ $product->image }}">
+
                             <label for="image" class="form-label">Product Image</label>
-                            <input type="file" id="image" name="image" class="form-control @error('image') is-invalid @enderror">
+                            <img class="img-preview img-fluid" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                            <input type="file" id="image" name="image" class="form-control @error('image') is-invalid @enderror" onchange="previewImage()">
                             @error('image')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -90,7 +97,6 @@
     </div>
     @endforeach
 </div>
-
   <!-- Tambah PRODUKK -->
   <div class="modal fade" id="addProduct">
     <div class="modal-dialog modal-dialog-centered">
@@ -102,7 +108,7 @@
         </div>
 
         <div class="modal-body">
-          <form method="POST" action="/admin/product">
+          <form method="POST" action="/admin/product" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
               <label for="name" class="form-label">Product Name</label>
@@ -156,4 +162,21 @@
     </div>
   </div>
 </div>
+
 @endsection
+
+<script>
+function previewImage() {
+    const input = document.querySelector('#image');
+    const imagePreview = document.querySelector('.img-preview');
+
+    const oFReader = new FileReader();
+    oFReader.readAsDataURL(input.files[0]);
+
+    oFReader.onload = function(oFEvent) {
+        imagePreview.src = oFEvent.target.result;
+    }
+}
+
+</script>
+

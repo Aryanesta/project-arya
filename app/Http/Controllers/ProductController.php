@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use App\Models\ProductCategory;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -32,13 +34,18 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
         $validateData = $request->validate([
             'name' => 'required|max:255',
             'price' => 'required|max:12',
-            'image' => 'required',
+            'image' => 'image|file|max:1024',
             'description' => 'nullable',
             'product_category_id' => 'required|exists:product_categories,id',
         ]);
+
+        if ($request->file('image')) {
+            $validateData['image'] = $request->file('image')->store('product-image');
+        }
 
         Product::create($validateData);
         
@@ -69,10 +76,17 @@ class ProductController extends Controller
         $validateData = $request->validate([
             'name' => 'required|max:255',
             'price' => 'required|max:12',
-            'image' => 'required',
+            'image' => 'image|file|max:1024',
             'description' => 'nullable',
             'product_category_id' => 'required|exists:product_categories,id',
         ]);
+
+        if ($request->file('image')) {
+            if ($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+            $validateData['image'] = $request->file('image')->store('product-image');
+        }
 
         Product::where('id', $product->id)->update($validateData);
         
@@ -84,6 +98,11 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        if ($product->image) {
+            Storage::delete($product->image);
+        }
+
+
         Product::destroy($product->id);
         
         return redirect('/admin/product')->with('success', 'Product deleted successfully!');
