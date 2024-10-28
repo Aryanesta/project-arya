@@ -77,7 +77,7 @@
         >
             Submit
         </button>
-        </form>
+    </form>
   </section>
   
 @endsection

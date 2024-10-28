@@ -7,19 +7,27 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ParsingDataController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Api\ApiProductController;
+use App\Http\Controllers\Api\ApiCheckoutController;
+use App\Http\Controllers\Api\ApiCustomerController;
 use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\Api\ApiProductCategoryController;
 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('checkAuth');
+
+// Chechkout Route
+Route::get('/admin/checkout', [ApiCheckoutController::class, 'index'])->name('checkout')->middleware('checkAuth');
 
 // Product Route
 Route::put('/admin/product/{product}/edit', [ProductController::class, 'update'])->middleware('checkAuth');
@@ -41,16 +49,20 @@ Route::get('/login-success', function() {
     return view('/auth/login-success');
 })->middleware('checkAuth');
 
+// Auth login
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('login')->middleware('guest');
+Route::post('/', [LoginController::class, 'login']);
 
-Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('guest');
-
-Route::post('/', [LoginController::class, 'authenticate']);
-
+// Auth logout
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('checkAuth');
 
-Route::get('/registration', [RegistrationController::class, 'index'])->middleware('guest');
+// Auth Register
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register')->middleware('guest');
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
-Route::post('/registration', [RegistrationController::class, 'store']);
+// Route::get('/registration', [RegistrationController::class, 'index'])->middleware('guest');
+
+// Route::post('/registration', [RegistrationController::class, 'store']);
 
 Route::get('/contact', [ContactController::class, 'index'])->middleware('checkAuth');
 
@@ -70,6 +82,15 @@ Route::get('/author/{user:username}', function(User $user) {
     ]);
 })->middleware('checkAuth');
 
+Route::get('/products/list', [ApiProductController::class, 'getProductList']);
 
+Route::get('/products/total-transaction', [ApiProductController::class, 'getProductTransactionCount']);
+
+Route::get('/products-categories/total-product', [ApiProductCategoryController::class, 'getCategoryProductCount']);
+
+Route::get('/customers/total-transaction', [ApiCustomerController::class, 'getCustomerTransactionCount']);
 
 Route::get('/parse-data/{nama_lengkap}/{email}/{jenis_kelamin}', [ParsingDataController::class, 'parseData'])->middleware('checkAuth');
+
+Route::post('/admin/ongkir', [ApiCheckoutController::class, 'ongkir']);
+

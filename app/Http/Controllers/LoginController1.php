@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class LoginController1 extends Controller
 {
     public function index () {
         return view('pages/login', [

@@ -34,6 +34,14 @@
     </div>
   </li>
 
+  {{-- Nav Item - Checkout --}}
+  <li class="nav-item {{ $title === 'Checkout' ? 'active' : '' }}">
+    <a class="nav-link" href={{ route('checkout') }}>
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Checkout</span>
+    </a>
+  </li>
+
   <!-- Nav Item - Transaction -->
   <li class="nav-item {{ $title === 'Transaction' || $title === 'Customer' ? 'active' : '' }}">
     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu3" aria-expanded="{{ $title === 'Transaction' || $title === 'Customer' ? 'true' : 'false' }}" aria-controls="submenu3">
@@ -56,6 +64,7 @@
     </a>
   </li>
 
+  @can('admin')      
   <!-- Nav Item - Blog -->
   <li class="nav-item">
     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu2" aria-expanded="{{ $title === 'Blog' || $title === 'Blog Categories' ? 'true' : 'false' }}" aria-controls="submenu2">
@@ -69,5 +78,6 @@
       </ul>
     </div>
   </li>
+  @endcan
 </ul>
 <!-- End of Sidebar -->
